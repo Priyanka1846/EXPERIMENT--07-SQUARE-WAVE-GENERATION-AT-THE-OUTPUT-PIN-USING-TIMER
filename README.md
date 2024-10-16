@@ -75,6 +75,7 @@ Step14. click on debug and simulate using simulation as shown below
 ## STM 32 CUBE PROGRAM :
 ```
 #include "main.h"
+
 TIM_HandleTypeDef htim2;
 
 void SystemClock_Config(void);
@@ -83,8 +84,9 @@ static void MX_TIM2_Init(void);
 
 int main(void)
 {
-
   HAL_Init();
+  SystemClock_Config();
+
   MX_GPIO_Init();
   MX_TIM2_Init();
   HAL_TIM_Base_Start(&htim2);
@@ -92,15 +94,13 @@ int main(void)
   HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
   while (1)
   {
-
   }
-}
 
+}
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
@@ -126,12 +126,9 @@ void SystemClock_Config(void)
 
 static void MX_TIM2_Init(void)
 {
-
-
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_OC_InitTypeDef sConfigOC = {0};
-
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
@@ -158,7 +155,7 @@ static void MX_TIM2_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 700;
+  sConfigOC.Pulse = 500;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
@@ -181,6 +178,7 @@ void Error_Handler(void)
   while (1)
   {
   }
+  
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -188,53 +186,42 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
 }
-#endif
-
-
 ```
-
-
-
 ## Output screen shots of proteus  :
+ 
+ ![Screenshot 2024-10-14 025530](https://github.com/user-attachments/assets/c10d815a-d494-45a8-9174-d7db653fab85)
 
-![Screenshot 2024-10-03 092628](https://github.com/user-attachments/assets/98e6ade2-4c6f-4f00-ab80-a00c4c862ae0)
+ ## CIRCUIT DIAGRAM (EXPORT THE GRAPHICS TO PDF AND ADD THE SCREEN SHOT HERE): 
+ ![image](https://github.com/user-attachments/assets/423b0d51-e314-490e-ade7-3ea13f24ff99)
 
- ![Screenshot 2024-10-03 090749](https://github.com/user-attachments/assets/214e8f1f-7f8a-43f2-aac8-655ea4d87bd1)
-
- ![Screenshot 2024-10-03 090938](https://github.com/user-attachments/assets/4b6ff3e7-2a9e-4893-a31b-51a88c6778e5)
-
-![Screenshot 2024-10-03 091158](https://github.com/user-attachments/assets/edf5cb2d-4cd3-43f3-a456-7036f8785c5b)
-
-## CIRCUIT DIAGRAM (EXPORT THE GRAPHICS TO PDF AND ADD THE SCREEN SHOT HERE): 
- ![Screenshot 2024-10-03 092354](https://github.com/user-attachments/assets/33b4fa70-584f-4af2-b9f0-c09b148b2901)
 
 ## DUTY CYCLE AND FREQUENCY CALCULATION 
 FOR PULSE AT 500
+![Screenshot 2024-10-14 025631](https://github.com/user-attachments/assets/635802d7-b841-4846-a0dd-6c13fae4f3ca)
 
-TON = 4
-TOFF= 4
-TOTAL TIME = 8
-FREQUENCY = 1/8
+TON = 2ms
+TOFF=2ms
+TOTAL TIME = 4ms
+FREQUENCY = 1/4 = 250Hz 
+
 
 FOR PULSE AT 700
+![Screenshot 2024-10-14 083638](https://github.com/user-attachments/assets/a3179701-36a2-4441-a1d2-6914642e1422)
 
-TON = 5.6
-TOFF= 2.4
-TOTAL TIME = 8.0
-FREQUENCY = 1/8
+TON = 3ms
+TOFF= 1ms
+TOTAL TIME = 4ms
+FREQUENCY = 1/4 = 250Hz 
 
 
 FOR PULSE AT 900
+![Screenshot 2024-10-14 083652](https://github.com/user-attachments/assets/41966022-c24f-4ad5-98d6-020539e41833)
 
-TON = 7.2
-TOFF = 0.8
-TOTAL TIME = 8.0 
-FREQUENCY = 1/8
+TON = 3.5ms
+TOFF= 0.5ms
+TOTAL TIME = 4ms 
+FREQUENCY = 1/4 = 250Hz
 
 
 ## Result :
 A PWM Signal is generated using the following frequency and various duty cycles are simulated 
-
-
-
-
